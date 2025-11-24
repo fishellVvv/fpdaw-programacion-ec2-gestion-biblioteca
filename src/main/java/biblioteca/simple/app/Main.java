@@ -32,6 +32,10 @@ public class Main {
         catalogo.alta(new Pelicula(3, "El Padrino", "1972", Formato.FISICO, "rancis Ford Coppola", 175));
         catalogo.alta(new Pelicula(4, "Parásitos", "2019", Formato.FISICO, "Bong Joon-ho", 132));
 
+        // Carga de dos ejemplos de videojuegos para hacer pruebas
+        catalogo.alta(new Videojuego(5, "The Witcher 3", "2015", Formato.DIGITAL, "PC", 18));
+        catalogo.alta(new Videojuego(6, "The Last of Us Part II", "2020", Formato.FISICO, "PS5", 18));
+
         usuarios.add(new Usuario(1, "Juan"));
         usuarios.add(new Usuario(2, "María"));
 
