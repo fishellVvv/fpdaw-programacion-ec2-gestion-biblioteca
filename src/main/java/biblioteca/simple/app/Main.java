@@ -4,7 +4,6 @@ import biblioteca.simple.contratos.Prestable;
 import biblioteca.simple.modelo.*;
 import biblioteca.simple.servicios.Catalogo;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,14 +11,9 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-
     private static final Catalogo catalogo = new Catalogo();
-
     private static final List<Usuario> usuarios =new ArrayList<>();
-
-
     private static final Scanner sc = new Scanner(System.in);
-
 
     public static void main(String[] args) {
         cargarDatos();
@@ -29,7 +23,7 @@ public class Main {
     private static void cargarDatos(){
         catalogo.alta(new Libro(1, "El Quijote", "1608", Formato.FISICO, "25225", "Cervantes"));
         catalogo.alta(new Libro(2, "El nombre del viento", "2007", Formato.FISICO, "9788401352836", "Patrick Rothfuss"));
-        catalogo.alta(new Pelicula(3, "El Padrino", "1972", Formato.FISICO, "rancis Ford Coppola", 175));
+        catalogo.alta(new Pelicula(3, "El Padrino", "1972", Formato.FISICO, "Francis Ford Coppola", 175));
         catalogo.alta(new Pelicula(4, "Parásitos", "2019", Formato.FISICO, "Bong Joon-ho", 132));
 
         // Carga de dos ejemplos de videojuegos para hacer pruebas
@@ -38,25 +32,22 @@ public class Main {
 
         usuarios.add(new Usuario(1, "Juan"));
         usuarios.add(new Usuario(2, "María"));
-
     }
 
     private static void menu(){
-
         int op;
 
         do {
-
             System.out.println("\n===Menú de Biblioteca===");
             System.out.println("1. Listar");
             System.out.println("2. Buscar por título");
             System.out.println("3. Buscar por año");
             System.out.println("4. Prestar Producto");
             System.out.println("5. Devolver Producto");
+            System.out.println("6. Crear usuario");
             System.out.println("0. Salir");
             while(!sc.hasNextInt()) sc.next();
             op = sc.nextInt();
-
             sc.nextLine();
 
             switch (op){
@@ -65,10 +56,10 @@ public class Main {
                 case 3 -> buscarPorAnio();
                 case 4 -> prestar();
                 case 5 -> devolver();
+                case 6 -> crearUsuarioManual();
                 case 0 -> System.out.println("Sayonara!");
                 default -> System.out.println("Opción no válida");
             }
-
         } while(op != 0);
     }
 
@@ -81,10 +72,7 @@ public class Main {
         }
 
         System.out.println("==Lista de productos ===");
-
         for(Producto p : lista) System.out.println("- " + p);
-
-
     }
 
     private static void buscarPorTitulo(){
@@ -107,7 +95,7 @@ public class Main {
         }
         System.out.println("Lista usuarios");
         usuarios.forEach( u ->
-                        System.out.println("- Código : " + u.getId() + "| Nombre: " + u.getNombre() )
+                System.out.println("- Código : " + u.getId() + "| Nombre: " + u.getNombre() )
         );
     }
 
@@ -119,9 +107,7 @@ public class Main {
     }
 
     private static void prestar(){
-
         // 1)mostrar productos disponibles
-
         List<Producto> disponibles = catalogo.listar().stream()
                 .filter(p -> p instanceof Prestable pN && !pN.estaPrestado())
                 .collect(Collectors.toList());
@@ -155,28 +141,23 @@ public class Main {
                      return;
                  }
 
-
                  listarUsuarios();
-
-                 System.out.println("Ingresa código de usurio");
+                 System.out.println("Ingresa código de usuario");
 
                  int cUsuario = sc.nextInt();
                  sc.nextLine();
                  Usuario u1 = getUsuarioPorCodigo(cUsuario);
 
                  if (u1 == null){
-                     System.out.println("Usuari ono encontrado");
+                     System.out.println("Usuario no encontrado");
                  }
 
                  Prestable pPrestable = (Prestable) pEncontrado;
                  pPrestable.prestar(u1);
-
     }
 
 
     public static void devolver(){
-
-
         List<Producto> pPrestados = catalogo.listar().stream()
                 .filter(p -> p instanceof Prestable pN && pN.estaPrestado())
                 .collect(Collectors.toList());
@@ -213,9 +194,28 @@ public class Main {
         Prestable pE = (Prestable) pEncontrado;
         pE.devolver();
         System.out.println("Devuelto correctamente");
-
     }
 
+    public static void crearUsuarioManual() {
+        // Crea un usuario nuevo (introduciendo su código y nombre)
+        System.out.print("Introduce el código del nuevo usuario: ");
+        int id = sc.nextInt();
+        sc.nextLine();
 
+        // Comprueba si ya existe
+        for (Usuario u : usuarios) {
+            if (u.getId() == id) {
+                System.out.println("Ya existe un usuario con ese código.");
+                return;
+            }
+        }
 
+        System.out.print("Introduce el nombre del nuevo usuario: ");
+        String nombre = sc.nextLine();
+
+        Usuario nuevoUsuario = new Usuario(id, nombre);
+        usuarios.add(nuevoUsuario);
+
+        System.out.println("Usuario creado correctamente: " + nuevoUsuario);
+    }
 }
