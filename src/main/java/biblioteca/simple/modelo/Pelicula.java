@@ -35,7 +35,6 @@ public class Pelicula extends Producto  implements Prestable {
     public String getDirector() {
         return director;
     }
-
     public int getMinutosDuracion() {
         return minutosDuracion;
     }

@@ -34,7 +34,6 @@ public class Videojuego extends Producto implements Prestable {
     public String getPlataforma() {
         return plataforma;
     }
-
     public int getEdadMinima() {
         return edadMinima;
     }

@@ -5,7 +5,6 @@ import biblioteca.simple.modelo.Producto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector; // ← Import innecesario aquí (no se usa en el código actual)
 
 // Clase que representa el catálogo general de la biblioteca.
 // Se encarga de almacenar, buscar y listar los productos (libros, películas, etc.)
@@ -16,7 +15,6 @@ public class Catalogo {
     // Se declara como "final" porque la referencia no cambiará (aunque el contenido sí puede modificarse).
     private final List<Producto> productos = new ArrayList<>();
 
-
     // --- MÉTODO alta() ---
     // Añade un producto al catálogo.
     // Parámetro: 'p' es un objeto de tipo Producto (o una subclase como Libro o Pelicula).
@@ -24,14 +22,12 @@ public class Catalogo {
         productos.add(p); // Lo agrega al final de la lista
     }
 
-
     // --- MÉTODO listar() ---
     // Devuelve una copia de la lista de productos.
     // Se crea un nuevo ArrayList con los mismos elementos para evitar que se modifique la lista original desde fuera.
     public List<Producto> listar() {
         return new ArrayList<>(productos);
     }
-
 
     // --- MÉTODO buscar(String titulo) ---
     // Busca productos cuyo título contenga el texto indicado (ignorando mayúsculas/minúsculas).
@@ -47,7 +43,6 @@ public class Catalogo {
         }
         return res; // Devuelve la lista (vacía si no hay coincidencias)
     }
-
 
     // --- MÉTODO buscar(int anho) ---
     // Busca productos cuyo año de publicación coincida exactamente con el año indicado.
