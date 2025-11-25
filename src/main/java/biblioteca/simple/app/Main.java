@@ -3,6 +3,7 @@ package biblioteca.simple.app;
 import biblioteca.simple.contratos.Prestable;
 import biblioteca.simple.modelo.*;
 import biblioteca.simple.servicios.Catalogo;
+import biblioteca.simple.servicios.PersistenciaUsuarios;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class Main {
             System.out.println("4. Prestar Producto");
             System.out.println("5. Devolver Producto");
             System.out.println("6. Crear usuario");
+            System.out.println("7. Exportar usuarios");
             System.out.println("0. Salir");
             while(!sc.hasNextInt()) sc.next();
             op = sc.nextInt();
@@ -57,6 +59,7 @@ public class Main {
                 case 4 -> prestar();
                 case 5 -> devolver();
                 case 6 -> crearUsuarioManual();
+                case 7 -> exportarUsuarios();
                 case 0 -> System.out.println("Sayonara!");
                 default -> System.out.println("Opción no válida");
             }
@@ -237,5 +240,15 @@ public class Main {
         usuarios.add(nuevoUsuario);
 
         System.out.println("Usuario creado: " + nuevoUsuario.getId() + " - " + nuevoUsuario.getNombre());
+    }
+
+    private static void exportarUsuarios() {
+        // hace la llamada para exportar usuarios mediante Gson
+        try {
+            PersistenciaUsuarios.exportar(usuarios);
+            System.out.println("Usuarios exportados correctamente");
+        } catch (Exception e) {
+            System.out.println("Error al exportar usuarios: " + e.getMessage());
+        }
     }
 }
