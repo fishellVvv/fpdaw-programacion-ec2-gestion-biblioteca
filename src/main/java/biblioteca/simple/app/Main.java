@@ -107,7 +107,7 @@ public class Main {
     }
 
     private static void prestar(){
-        // 1)mostrar productos disponibles
+        // mostrar productos disponibles
         List<Producto> disponibles = catalogo.listar().stream()
                 .filter(p -> p instanceof Prestable pN && !pN.estaPrestado())
                 .collect(Collectors.toList());
@@ -150,10 +150,30 @@ public class Main {
 
                  if (u1 == null){
                      System.out.println("Usuario no encontrado");
+
+                     // Si no encuentra el usuario correspondiente al ID indicado proponemos crearlo
+                     System.out.print("¿Quieres crear un nuevo usuario con este código ahora? (s/n): ");
+                     String respuesta = sc.nextLine().trim().toLowerCase();
+
+                     if (respuesta.equals("s")) {
+                         // Solicitamos solo el nombre, el código que vamos a utilizar es el introducido anteriormente
+                         System.out.print("Introduce el nombre del nuevo usuario: ");
+                         String nombreNuevo = sc.nextLine().trim();
+
+                         u1 = new Usuario(cUsuario, nombreNuevo);
+                         usuarios.add(u1);
+
+                         System.out.println("Usuario creado: " + u1.getId() + " - " + u1.getNombre());
+                     } else {
+                         // cualquier respuesta diferente de "s" cancela la creación de usuario y el préstamo
+                         System.out.println("Operación de préstamo cancelada.");
+                         return;
+                     }
                  }
 
                  Prestable pPrestable = (Prestable) pEncontrado;
                  pPrestable.prestar(u1);
+                 System.out.println("Prestado correctamente");
     }
 
 
@@ -163,7 +183,7 @@ public class Main {
                 .collect(Collectors.toList());
 
         if ( pPrestados.isEmpty() ) {
-            System.out.println("No hay productos para prestar");
+            System.out.println("No hay productos prestados");
             return;
         }
 
@@ -216,6 +236,6 @@ public class Main {
         Usuario nuevoUsuario = new Usuario(id, nombre);
         usuarios.add(nuevoUsuario);
 
-        System.out.println("Usuario creado correctamente: " + nuevoUsuario);
+        System.out.println("Usuario creado: " + nuevoUsuario.getId() + " - " + nuevoUsuario.getNombre());
     }
 }
